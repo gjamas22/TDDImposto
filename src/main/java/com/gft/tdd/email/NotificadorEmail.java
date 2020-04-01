@@ -1,11 +1,13 @@
 package com.gft.tdd.email;
 
 import com.gft.tdd.model.Pedido;
+import com.gft.tdd.service.AcaoLancamentoPedido;
 
-public class NotificadorEmail {
+public class NotificadorEmail implements AcaoLancamentoPedido{
 
-	
-	public void enviar(Pedido pedido) {
+	public void executar(Pedido pedido) {
 		System.out.println("Enviando o email");
+		
+		
 	}
 }

@@ -2,6 +2,9 @@ package com.gft.tdd.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -31,7 +34,9 @@ public class PedidoServiceTest {
 	@Before
 	public void setuo() {
 		MockitoAnnotations.initMocks(this);
-		pedidoService = new PedidoService(pedidos, notificadorEmail, notificadorSms);
+		
+		List<AcaoLancamentoPedido>acoes = Arrays.asList(pedidos, notificadorEmail, notificadorSms);
+		pedidoService = new PedidoService(acoes);
 		pedido = new PedidoBuilder()
 				.comValor(100.0)
 				.para("João", "joao@joao.com","12312-1414")
@@ -46,19 +51,19 @@ public class PedidoServiceTest {
 	
 	public void deveSalvarPedidoNoBancoDeDados() throws Exception {
 		pedidoService.lancar(pedido);
-		Mockito.verify(pedidos).guardar(pedido);
+		Mockito.verify(pedidos).executar(pedido);
 	}
 	
 	@Test
 	public void deveNotificarPorEmail() throws Exception {
 		pedidoService.lancar(pedido);
-		Mockito.verify(notificadorEmail).enviar(pedido);
+		Mockito.verify(notificadorEmail).executar(pedido);
 	}
 	
 	@Test
 	public void deveNotificarPorSms() throws Exception {
 		pedidoService.lancar(pedido);
-		Mockito.verify(notificadorSms).notificar(pedido);
+		Mockito.verify(notificadorSms).executar(pedido);
 	}
 }
 	
